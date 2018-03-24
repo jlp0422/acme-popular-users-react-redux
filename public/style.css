@@ -1,5 +1,10 @@
 .users:hover {
-  text-decoration: none;
+  /* text-decoration: none; */
+}
+
+.empty:focus {
+  border: 2px solid red;
+  outline: none;
 }
 
 /* .list-group-item-action:hover {

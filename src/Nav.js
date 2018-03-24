@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Nav = ({ users, topUser }) => {
+  // console.log(location.hash)
   return (
     <ul style={{ marginTop: 10 }} className="nav nav-tabs">
       <li className="nav-item">

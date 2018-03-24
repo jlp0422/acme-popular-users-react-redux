@@ -59,7 +59,12 @@ class UserForm extends React.Component {
     return (
       <div>
         <h3 style={{ marginTop: 20}}>{ id ? ('Update user') : ('Create user')}</h3>
-        <h5>Error message</h5>
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Uh oh! Looks like you ran into an error</strong> You should check in on some of those fields below.
+          <button className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <form onSubmit={ onSave }>
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Name</label>
