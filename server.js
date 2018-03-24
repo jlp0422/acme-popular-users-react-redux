@@ -26,6 +26,7 @@ app.post('/api/users', (req, res, next) => {
 })
 
 app.put('/api/users/:id', (req, res, next) => {
+  console.log(req.body)
   User.findById(req.params.id)
     .then( user => {
       Object.assign(user, req.body)

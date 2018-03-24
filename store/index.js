@@ -7,8 +7,6 @@ const GET_USERS = 'GET_USERS';
 const DELETE_USER = 'DELETE_USER';
 const CREATE_USER = 'CREATE_USER';
 const UPDATE_USER = 'UPDATE_USER';
-const ADD = 'ADD';
-const SUBTRACT = 'SUBTRACT';
 
 const initialState = {
   users: []
@@ -70,14 +68,35 @@ export const deleteUserFromServer = (id) => {
   }
 }
 
-// const addOne = (id) => {
-//   return {
-//     type: ADD,
-//     id
-//   }
-// }
+// ADD OR SUBTRACT ONE TO RATING
+const changeRating = (user) => {
+  return {
+    type: UPDATE_USER,
+    user
+  }
+}
 
-// export const addOneOnServer = ()
+export const incrementOnServer = (user) => {
+  const { id } = user
+  let { rating } = user
+  const newRating = rating+1
+  return (dispatch) => {
+    return axios.put(`/api/users/${id}`, {rating: newRating})
+      .then( res => res.data)
+      .then( user => dispatch(changeRating(user)))
+  }
+}
+
+export const decrementOnServer = (user) => {
+  const { id } = user
+  let { rating } = user
+  const newRating = rating - 1
+  return (dispatch) => {
+    return axios.put(`/api/users/${id}`, { rating: newRating })
+      .then(res => res.data)
+      .then(user => dispatch(changeRating(user)))
+  }
+}
 
 
 const reducer = (state = initialState, action) => {
@@ -96,6 +115,7 @@ const reducer = (state = initialState, action) => {
     case UPDATE_USER:
       const otherUsers = state.users.filter(user => user.id !== action.user.id)
       return Object.assign({}, state, { users: [...otherUsers, action.user ]})
+
   }
   return state
 }

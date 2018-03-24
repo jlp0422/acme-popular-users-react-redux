@@ -1985,7 +1985,7 @@ function isPlainObject(value) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteUserFromServer = exports.saveUserOnServer = exports.getUsersFromServer = undefined;
+exports.decrementOnServer = exports.incrementOnServer = exports.deleteUserFromServer = exports.saveUserOnServer = exports.getUsersFromServer = undefined;
 
 var _axios = __webpack_require__(123);
 
@@ -2006,8 +2006,6 @@ var GET_USERS = 'GET_USERS';
 var DELETE_USER = 'DELETE_USER';
 var CREATE_USER = 'CREATE_USER';
 var UPDATE_USER = 'UPDATE_USER';
-var ADD = 'ADD';
-var SUBTRACT = 'SUBTRACT';
 
 var initialState = {
   users: []
@@ -2076,15 +2074,41 @@ var deleteUserFromServer = exports.deleteUserFromServer = function deleteUserFro
   };
 };
 
-// const addOne = (id) => {
-//   return {
-//     type: ADD,
-//     id
-//   }
-// }
+// ADD OR SUBTRACT ONE TO RATING
+var changeRating = function changeRating(user) {
+  return {
+    type: UPDATE_USER,
+    user: user
+  };
+};
 
-// export const addOneOnServer = ()
+var incrementOnServer = exports.incrementOnServer = function incrementOnServer(user) {
+  var id = user.id;
+  var rating = user.rating;
 
+  var newRating = rating + 1;
+  return function (dispatch) {
+    return _axios2.default.put('/api/users/' + id, { rating: newRating }).then(function (res) {
+      return res.data;
+    }).then(function (user) {
+      return dispatch(changeRating(user));
+    });
+  };
+};
+
+var decrementOnServer = exports.decrementOnServer = function decrementOnServer(user) {
+  var id = user.id;
+  var rating = user.rating;
+
+  var newRating = rating - 1;
+  return function (dispatch) {
+    return _axios2.default.put('/api/users/' + id, { rating: newRating }).then(function (res) {
+      return res.data;
+    }).then(function (user) {
+      return dispatch(changeRating(user));
+    });
+  };
+};
 
 var reducer = function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -2109,6 +2133,7 @@ var reducer = function reducer() {
         return user.id !== action.user.id;
       });
       return Object.assign({}, state, { users: [].concat(_toConsumableArray(otherUsers), [action.user]) });
+
   }
   return state;
 };
@@ -25238,11 +25263,9 @@ var _reactRouterDom = __webpack_require__(17);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Nav = function Nav(_ref) {
-  var users = _ref.users;
+  var users = _ref.users,
+      topUser = _ref.topUser;
 
-  var topUser = users.length && users.reduce(function (memo, item) {
-    return memo.rating > item.rating ? memo : item;
-  });
   return _react2.default.createElement(
     'ul',
     null,
@@ -25295,8 +25318,12 @@ var Nav = function Nav(_ref) {
 var mapStateToProps = function mapStateToProps(_ref2) {
   var users = _ref2.users;
 
+  var topUser = users.length && users.reduce(function (memo, item) {
+    return memo.rating >= item.rating ? memo : item;
+  });
   return {
-    users: users
+    users: users,
+    topUser: topUser
   };
 };
 
@@ -26463,10 +26490,15 @@ var _reactRedux = __webpack_require__(11);
 
 var _reactRouterDom = __webpack_require__(17);
 
+var _store = __webpack_require__(26);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint-disable */
 var Users = function Users(_ref) {
-  var users = _ref.users;
+  var users = _ref.users,
+      add = _ref.add,
+      subtract = _ref.subtract;
 
   return _react2.default.createElement(
     'ul',
@@ -26483,7 +26515,9 @@ var Users = function Users(_ref) {
         _react2.default.createElement('br', null),
         _react2.default.createElement(
           'button',
-          null,
+          { onClick: function onClick() {
+              return subtract(user);
+            } },
           '-'
         ),
         '\xA0',
@@ -26491,7 +26525,9 @@ var Users = function Users(_ref) {
         '\xA0',
         _react2.default.createElement(
           'button',
-          null,
+          { onClick: function onClick() {
+              return add(user);
+            } },
           '+'
         ),
         _react2.default.createElement('br', null),
@@ -26499,8 +26535,7 @@ var Users = function Users(_ref) {
       );
     })
   );
-}; /* eslint-disable */
-
+};
 
 var mapStateToProps = function mapStateToProps(_ref2) {
   var users = _ref2.users;
@@ -26510,7 +26545,18 @@ var mapStateToProps = function mapStateToProps(_ref2) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(Users);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    add: function add(user) {
+      return dispatch((0, _store.incrementOnServer)(user));
+    },
+    subtract: function subtract(user) {
+      return dispatch((0, _store.decrementOnServer)(user));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Users);
 
 /***/ }),
 /* 122 */

@@ -3,10 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-const Nav = ({ users }) => {
-  const topUser = users.length && users.reduce((memo, item) => {
-    return memo.rating > item.rating ? memo : item
-  })
+const Nav = ({ users, topUser }) => {
   return (
     <ul>
       <li>
@@ -26,8 +23,12 @@ const Nav = ({ users }) => {
 }
 
 const mapStateToProps = ({ users }) => {
+  const topUser = users.length && users.reduce((memo, item) => {
+    return memo.rating >= item.rating ? memo : item
+  })
   return {
-    users
+    users,
+    topUser
   }
 }
 
