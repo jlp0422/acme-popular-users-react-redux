@@ -1398,6 +1398,14 @@ var decrementOnServer = exports.decrementOnServer = function decrementOnServer(u
   };
 };
 
+function compare(a, b) {
+  var user1 = a.rating;
+  var user2 = b.rating;
+  var comparison = 0;
+  if (user1 < user2) comparison = 1;else if (user1 > user2) comparison = -1;
+  return comparison;
+}
+
 var reducer = function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
@@ -1414,13 +1422,17 @@ var reducer = function reducer() {
       return Object.assign({}, state, { users: users });
 
     case CREATE_USER:
-      return Object.assign({}, state, { users: [].concat(_toConsumableArray(state.users), [action.user]) });
+      var newUsers = [].concat(_toConsumableArray(state.users), [action.user]);
+      var sortedUsers = newUsers.sort(compare);
+      return Object.assign({}, state, { users: sortedUsers });
 
     case UPDATE_USER:
       var otherUsers = state.users.filter(function (user) {
         return user.id !== action.user.id;
       });
-      return Object.assign({}, state, { users: [].concat(_toConsumableArray(otherUsers), [action.user]) });
+      var allUsers = [].concat(_toConsumableArray(otherUsers), [action.user]);
+      var usersSorted = allUsers.sort(compare);
+      return Object.assign({}, state, { users: usersSorted });
 
   }
   return state;

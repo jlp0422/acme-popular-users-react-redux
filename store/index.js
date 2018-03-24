@@ -98,6 +98,14 @@ export const decrementOnServer = (user) => {
   }
 }
 
+function compare(a, b) {
+  const user1 = a.rating
+  const user2 = b.rating
+  let comparison = 0;
+  if (user1 < user2) comparison = 1;
+  else if (user1 > user2) comparison = -1;
+  return comparison;
+}
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
@@ -110,11 +118,15 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { users })
 
     case CREATE_USER:
-      return Object.assign({}, state, { users: [...state.users, action.user ]})
+      const newUsers = [...state.users, action.user]
+      const sortedUsers = newUsers.sort(compare)
+      return Object.assign({}, state, { users: sortedUsers })
 
     case UPDATE_USER:
       const otherUsers = state.users.filter(user => user.id !== action.user.id)
-      return Object.assign({}, state, { users: [...otherUsers, action.user ]})
+      const allUsers = [...otherUsers, action.user]
+      const usersSorted = allUsers.sort(compare)
+      return Object.assign({}, state, { users: usersSorted})
 
   }
   return state
