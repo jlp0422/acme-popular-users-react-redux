@@ -7,6 +7,8 @@ const GET_USERS = 'GET_USERS';
 const DELETE_USER = 'DELETE_USER';
 const CREATE_USER = 'CREATE_USER';
 const UPDATE_USER = 'UPDATE_USER';
+const ADD = 'ADD';
+const SUBTRACT = 'SUBTRACT';
 
 const initialState = {
   users: []
@@ -67,6 +69,15 @@ export const deleteUserFromServer = (id) => {
       .then(() => location.hash = '/users' )
   }
 }
+
+// const addOne = (id) => {
+//   return {
+//     type: ADD,
+//     id
+//   }
+// }
+
+// export const addOneOnServer = ()
 
 
 const reducer = (state = initialState, action) => {

@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 const Nav = ({ users }) => {
+  const topUser = users.length && users.reduce((memo, item) => {
+    return memo.rating > item.rating ? memo : item
+  })
   return (
     <ul>
       <li>
@@ -11,6 +14,9 @@ const Nav = ({ users }) => {
       </li>
       <li>
         <NavLink to='/users'>Users ({ users.length })</NavLink>
+      </li>
+      <li>
+        <NavLink to={`/users/${topUser.id}`}>Top User: { topUser.name } ({topUser.rating})</NavLink>
       </li>
       <li>
         <NavLink to='/users/create'>Create User</NavLink>

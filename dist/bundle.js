@@ -2006,6 +2006,8 @@ var GET_USERS = 'GET_USERS';
 var DELETE_USER = 'DELETE_USER';
 var CREATE_USER = 'CREATE_USER';
 var UPDATE_USER = 'UPDATE_USER';
+var ADD = 'ADD';
+var SUBTRACT = 'SUBTRACT';
 
 var initialState = {
   users: []
@@ -2073,6 +2075,16 @@ var deleteUserFromServer = exports.deleteUserFromServer = function deleteUserFro
     });
   };
 };
+
+// const addOne = (id) => {
+//   return {
+//     type: ADD,
+//     id
+//   }
+// }
+
+// export const addOneOnServer = ()
+
 
 var reducer = function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -25228,6 +25240,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Nav = function Nav(_ref) {
   var users = _ref.users;
 
+  var topUser = users.length && users.reduce(function (memo, item) {
+    return memo.rating > item.rating ? memo : item;
+  });
   return _react2.default.createElement(
     'ul',
     null,
@@ -25248,6 +25263,19 @@ var Nav = function Nav(_ref) {
         { to: '/users' },
         'Users (',
         users.length,
+        ')'
+      )
+    ),
+    _react2.default.createElement(
+      'li',
+      null,
+      _react2.default.createElement(
+        _reactRouterDom.NavLink,
+        { to: '/users/' + topUser.id },
+        'Top User: ',
+        topUser.name,
+        ' (',
+        topUser.rating,
         ')'
       )
     ),
