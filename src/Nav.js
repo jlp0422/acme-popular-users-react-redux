@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Nav = ({ users, topUser }) => {
   return (
-    <ul className="nav nav-tabs">
+    <ul style={{ marginTop: 10 }} className="nav nav-tabs">
       <li className="nav-item">
         <Link className="nav-link" to='/'>Home</Link>
       </li>

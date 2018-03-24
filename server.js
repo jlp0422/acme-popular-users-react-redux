@@ -43,6 +43,10 @@ app.delete('/api/users/:id', (req, res, next) => {
     .catch(next)
 })
 
+app.use((err, req, res, next) => {
+  res.send(err)
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`port of call: ${port}`))
 

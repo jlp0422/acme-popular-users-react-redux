@@ -1340,6 +1340,8 @@ var saveUserOnServer = exports.saveUserOnServer = function saveUserOnServer(user
       });
     }).then(function () {
       return location.hash = '/users';
+    }).catch(function (err) {
+      return console.log(err);
     });
   };
 };
@@ -21598,6 +21600,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(18);
 
+var _Home = __webpack_require__(143);
+
+var _Home2 = _interopRequireDefault(_Home);
+
 var _Nav = __webpack_require__(97);
 
 var _Nav2 = _interopRequireDefault(_Nav);
@@ -21650,6 +21656,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/users', component: _Users2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/users/create', render: function render(_ref) {
                 var history = _ref.history;
@@ -25280,7 +25287,7 @@ var Nav = function Nav(_ref) {
 
   return _react2.default.createElement(
     'ul',
-    { className: 'nav nav-tabs' },
+    { style: { marginTop: 10 }, className: 'nav nav-tabs' },
     _react2.default.createElement(
       'li',
       { className: 'nav-item' },
@@ -26526,7 +26533,7 @@ var Users = function Users(_ref) {
       users.map(function (user) {
         return _react2.default.createElement(
           'li',
-          { className: 'list-group-item', style: { fontSize: 18 }, key: user.id },
+          { className: 'list-group-item', style: { fontSize: 20 }, key: user.id },
           _react2.default.createElement(
             _reactRouterDom.Link,
             { to: '/users/' + user.id },
@@ -26535,14 +26542,14 @@ var Users = function Users(_ref) {
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'button',
-            { className: 'btn btn-danger', onClick: function onClick() {
+            { className: 'btn btn-danger font-weight-bold', onClick: function onClick() {
                 return subtract(user);
               } },
             '-'
           ),
-          '\xA0',
+          '\xA0\xA0',
           user.rating,
-          '\xA0',
+          '\xA0\xA0',
           _react2.default.createElement(
             'button',
             { className: 'btn btn-success', onClick: function onClick() {
@@ -27611,11 +27618,37 @@ var UserForm = function (_React$Component) {
         _react2.default.createElement(
           'form',
           { onSubmit: onSave },
-          _react2.default.createElement('input', { onChange: onChangeName, value: name }),
-          _react2.default.createElement('input', { onChange: onChangeRating, value: rating }),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group row' },
+            _react2.default.createElement(
+              'label',
+              { className: 'col-sm-2 col-form-label font-weight-bold' },
+              'Name'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'col-sm-10' },
+              _react2.default.createElement('input', { className: 'form-control', onChange: onChangeName, value: name })
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group row' },
+            _react2.default.createElement(
+              'label',
+              { className: 'col-sm-2 col-form-label font-weight-bold' },
+              'Rating'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'col-sm-10' },
+              _react2.default.createElement('input', { className: 'form-control', onChange: onChangeRating, value: rating })
+            )
+          ),
           _react2.default.createElement(
             'button',
-            { className: 'btn btn-outline-success', disabled: name && rating ? null : true },
+            { style: { margin: '10px 0 20px' }, className: 'btn btn-outline-success', disabled: name && rating ? null : true },
             id ? 'Update' : 'Save'
           )
         ),
@@ -27657,6 +27690,56 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(UserForm);
+
+/***/ }),
+/* 143 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(11);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Home = function Home(_ref) {
+  var userCount = _ref.userCount,
+      averageRating = _ref.averageRating;
+
+  return _react2.default.createElement(
+    'h3',
+    { style: { marginTop: 20 } },
+    'Check out all of our users. We have ',
+    userCount,
+    ' of them, with an average rating of ',
+    averageRating,
+    '.'
+  );
+};
+
+var mapStateToProps = function mapStateToProps(_ref2) {
+  var users = _ref2.users;
+
+  var userCount = users.length;
+  var sumRating = users.reduce(function (memo, item) {
+    return memo + item.rating * 1;
+  }, 0);
+  var averageRating = sumRating / userCount;
+  return {
+    userCount: userCount,
+    averageRating: Math.round(averageRating * 100) / 100
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Home);
 
 /***/ })
 /******/ ]);

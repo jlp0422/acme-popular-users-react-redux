@@ -11,11 +11,11 @@ const Users = ({ users, add, subtract }) => {
       <ul className="list-group">
         {
           users.map( user => (
-            <li className="list-group-item" style={{fontSize: 18}} key={ user.id }>
+            <li className="list-group-item" style={{fontSize: 20}} key={ user.id }>
               <Link to={`/users/${user.id}`}>{ user.name }</Link>
               <br />
-              <button className="btn btn-danger" onClick={() => subtract(user)}>-</button>
-                &nbsp;{ user.rating }&nbsp;
+              <button className="btn btn-danger font-weight-bold" onClick={() => subtract(user)}>-</button>
+                &nbsp;&nbsp;{ user.rating }&nbsp;&nbsp;
               <button className="btn btn-success" onClick={() => add(user)}>+</button>
             </li>
           ))

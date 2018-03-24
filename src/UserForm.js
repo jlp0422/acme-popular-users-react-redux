@@ -59,9 +59,19 @@ class UserForm extends React.Component {
       <div>
         <h3 style={{ marginTop: 20}}>{ id ? ('Update user') : ('Create user')}</h3>
         <form onSubmit={ onSave }>
-          <input onChange={ onChangeName } value={ name }/>
-          <input onChange={ onChangeRating } value={ rating }/>
-          <button className="btn btn-outline-success" disabled={name && rating ? null : true}>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label font-weight-bold">Name</label>
+            <div className="col-sm-10">
+              <input className="form-control" onChange={onChangeName} value={name} />
+            </div>
+          </div>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label font-weight-bold">Rating</label>
+            <div className="col-sm-10">
+              <input className="form-control" onChange={onChangeRating} value={rating} />
+            </div>
+          </div>
+          <button style={{margin: '10px 0 20px'}} className="btn btn-outline-success" disabled={name && rating ? null : true}>
             { id ? ('Update') : ('Save') }
           </button>
         </form>

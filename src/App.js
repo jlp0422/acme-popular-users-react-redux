@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './Home';
 import Nav from './Nav';
 import Users from './Users';
 import UserForm from './UserForm';
@@ -17,6 +18,7 @@ class App extends React.Component {
         <div>
           <Nav />
           <Switch>
+            <Route exact path ='/' component={ Home } />
             <Route exact path='/users' component={ Users } />
             <Route exact path='/users/create' render={({ history }) => <UserForm history={ history }/>} />
             <Route exact path='/users/:id' render={({ match, history }) => <UserForm id={ match.params.id*1} history={ history } />} />

@@ -49,6 +49,7 @@ export const saveUserOnServer = (user) => {
         user
       }))
       .then(() => location.hash = '/users')
+      .catch(err => console.log(err))
   }
 }
 

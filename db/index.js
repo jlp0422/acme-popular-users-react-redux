@@ -6,9 +6,18 @@ const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/dem
 const User = conn.define('user', {
   name: {
     type: Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   rating: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    validate: {
+      isInt: true,
+      notEmpty: true
+    }
   }
 })
 
