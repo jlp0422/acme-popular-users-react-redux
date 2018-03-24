@@ -70,14 +70,14 @@ class UserForm extends React.Component {
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Name</label>
             <div className="col-sm-10">
-              <input className="form-control" onChange={onChangeName} value={name} />
+              <input className="form-control" name="name" onChange={onChangeName} value={name} />
             </div>
           </div>
 
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Rating</label>
             <div className="col-sm-10">
-              <input className="form-control" onChange={onChangeRating} value={rating} />
+              <input className="form-control" name="rating" onChange={onChangeRating} value={rating} />
             </div>
           </div>
 

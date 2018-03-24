@@ -27732,7 +27732,7 @@ var UserForm = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-sm-10' },
-              _react2.default.createElement('input', { className: 'form-control', onChange: onChangeName, value: name })
+              _react2.default.createElement('input', { className: 'form-control', name: 'name', onChange: onChangeName, value: name })
             )
           ),
           _react2.default.createElement(
@@ -27746,7 +27746,7 @@ var UserForm = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-sm-10' },
-              _react2.default.createElement('input', { className: 'form-control', onChange: onChangeRating, value: rating })
+              _react2.default.createElement('input', { className: 'form-control', name: 'rating', onChange: onChangeRating, value: rating })
             )
           ),
           _react2.default.createElement(
