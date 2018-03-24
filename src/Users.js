@@ -6,19 +6,22 @@ import { incrementOnServer, decrementOnServer } from '../store';
 
 const Users = ({ users, add, subtract }) => {
   return (
-    <ul className="list-group">
-      {
-        users.map( user => (
-          <li className="list-group-item" style={{fontSize: 18}} key={ user.id }>
-            <Link to={`/users/${user.id}`}>{ user.name }</Link>
-            <br />
-            <button className="btn btn-danger" onClick={() => subtract(user)}>-</button>
-              &nbsp;{ user.rating }&nbsp;
-            <button className="btn btn-success" onClick={() => add(user)}>+</button>
-          </li>
-        ))
-      }
-    </ul>
+    <div>
+      <h3 style={{ marginTop: 20 }}>These are our users</h3>
+      <ul className="list-group">
+        {
+          users.map( user => (
+            <li className="list-group-item" style={{fontSize: 18}} key={ user.id }>
+              <Link to={`/users/${user.id}`}>{ user.name }</Link>
+              <br />
+              <button className="btn btn-danger" onClick={() => subtract(user)}>-</button>
+                &nbsp;{ user.rating }&nbsp;
+              <button className="btn btn-success" onClick={() => add(user)}>+</button>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   )
 }
 

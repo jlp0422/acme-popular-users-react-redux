@@ -13,12 +13,11 @@ const Nav = ({ users, topUser }) => {
         <Link className="nav-link" to='/users'>Users ({ users.length })</Link>
       </li>
       {
-        users.length &&
+        users.length ?
         <li className="nav-item">
           <Link className="nav-link" to={`/users/${topUser.id}`}>Top User: {topUser.name} ({topUser.rating})</Link>
-        </li>
+        </li> : null
       }
-
       <li className="nav-item">
         <Link className="nav-link" to='/users/create'>Create User</Link>
       </li>

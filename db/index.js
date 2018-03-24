@@ -5,7 +5,7 @@ const conn = new Sequelize(process.env.DATABAS_URL || 'postgres://localhost/demo
 
 const User = conn.define('user', {
   name: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   rating: {
     type: Sequelize.INTEGER

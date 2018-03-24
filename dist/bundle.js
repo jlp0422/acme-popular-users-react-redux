@@ -25301,7 +25301,7 @@ var Nav = function Nav(_ref) {
         ')'
       )
     ),
-    users.length && _react2.default.createElement(
+    users.length ? _react2.default.createElement(
       'li',
       { className: 'nav-item' },
       _react2.default.createElement(
@@ -25313,7 +25313,7 @@ var Nav = function Nav(_ref) {
         topUser.rating,
         ')'
       )
-    ),
+    ) : null,
     _react2.default.createElement(
       'li',
       { className: 'nav-item' },
@@ -26513,37 +26513,46 @@ var Users = function Users(_ref) {
       subtract = _ref.subtract;
 
   return _react2.default.createElement(
-    'ul',
-    { className: 'list-group' },
-    users.map(function (user) {
-      return _react2.default.createElement(
-        'li',
-        { className: 'list-group-item', style: { fontSize: 18 }, key: user.id },
-        _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: '/users/' + user.id },
-          user.name
-        ),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          'button',
-          { className: 'btn btn-danger', onClick: function onClick() {
-              return subtract(user);
-            } },
-          '-'
-        ),
-        '\xA0',
-        user.rating,
-        '\xA0',
-        _react2.default.createElement(
-          'button',
-          { className: 'btn btn-success', onClick: function onClick() {
-              return add(user);
-            } },
-          '+'
-        )
-      );
-    })
+    'div',
+    null,
+    _react2.default.createElement(
+      'h3',
+      { style: { marginTop: 20 } },
+      'These are our users'
+    ),
+    _react2.default.createElement(
+      'ul',
+      { className: 'list-group' },
+      users.map(function (user) {
+        return _react2.default.createElement(
+          'li',
+          { className: 'list-group-item', style: { fontSize: 18 }, key: user.id },
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/users/' + user.id },
+            user.name
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'button',
+            { className: 'btn btn-danger', onClick: function onClick() {
+                return subtract(user);
+              } },
+            '-'
+          ),
+          '\xA0',
+          user.rating,
+          '\xA0',
+          _react2.default.createElement(
+            'button',
+            { className: 'btn btn-success', onClick: function onClick() {
+                return add(user);
+              } },
+            '+'
+          )
+        );
+      })
+    )
   );
 };
 
@@ -27554,7 +27563,6 @@ var UserForm = function (_React$Component) {
   }, {
     key: 'onDelete',
     value: function onDelete(id) {
-      console.log(id);
       this.props.deleteUser(id);
     }
   }, {
@@ -27596,19 +27604,24 @@ var UserForm = function (_React$Component) {
         'div',
         null,
         _react2.default.createElement(
+          'h3',
+          { style: { marginTop: 20 } },
+          id ? 'Update user' : 'Create user'
+        ),
+        _react2.default.createElement(
           'form',
           { onSubmit: onSave },
           _react2.default.createElement('input', { onChange: onChangeName, value: name }),
           _react2.default.createElement('input', { onChange: onChangeRating, value: rating }),
           _react2.default.createElement(
             'button',
-            null,
+            { className: 'btn btn-outline-success', disabled: name && rating ? null : true },
             id ? 'Update' : 'Save'
           )
         ),
         id && _react2.default.createElement(
           'button',
-          { onClick: function onClick() {
+          { className: 'btn btn-outline-danger', onClick: function onClick() {
               return onDelete(id);
             } },
           'Delete'

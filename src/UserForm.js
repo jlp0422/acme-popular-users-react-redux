@@ -31,7 +31,6 @@ class UserForm extends React.Component {
   }
 
   onDelete(id) {
-    console.log(id)
     this.props.deleteUser(id)
   }
 
@@ -58,15 +57,16 @@ class UserForm extends React.Component {
     const { id } = this.props
     return (
       <div>
+        <h3 style={{ marginTop: 20}}>{ id ? ('Update user') : ('Create user')}</h3>
         <form onSubmit={ onSave }>
           <input onChange={ onChangeName } value={ name }/>
           <input onChange={ onChangeRating } value={ rating }/>
-          <button>
+          <button className="btn btn-outline-success" disabled={name && rating ? null : true}>
             { id ? ('Update') : ('Save') }
           </button>
         </form>
         {
-          id && <button onClick={() => onDelete(id)}>Delete</button>
+          id && <button className="btn btn-outline-danger" onClick={() => onDelete(id)}>Delete</button>
         }
     </div>
     )
