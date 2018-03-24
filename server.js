@@ -19,6 +19,11 @@ app.get('/api/users', (req, res, next) => {
     .catch(next)
 })
 
+app.post('/api/users', (req, res, next) => {
+  User.create(req.body)
+    .then( user => res.send(user))
+})
+
 app.delete('/api/users/:id', (req, res, next) => {
   User.findById(req.params.id)
     .then( user => user.destroy())

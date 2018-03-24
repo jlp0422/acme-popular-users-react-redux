@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteUserFromServer } from '../store';
+import { deleteUserFromServer, saveUserOnServer } from '../store';
 
 
 class UserForm extends React.Component {
-  constructor({ user, deleteUser }) {
+  constructor({ user, deleteUser, saveUser }) {
     super()
     this.state = {
       name: user ? user.name : '',
@@ -14,6 +14,7 @@ class UserForm extends React.Component {
     this.onDelete = this.onDelete.bind(this)
     this.onChangeName = this.onChangeName.bind(this)
     this.onChangeRating = this.onChangeRating.bind(this)
+    this.onSave = this.onSave.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,6 +35,13 @@ class UserForm extends React.Component {
     this.props.deleteUser(id)
   }
 
+  onSave(ev) {
+    ev.preventDefault()
+    const { id } = this.props
+    const { name, rating } = this.state
+    this.props.saveUser({ id, name, rating })
+  }
+
   onChangeName(ev) {
     const name = ev.target.value
     this.setState({ name })
@@ -45,12 +53,12 @@ class UserForm extends React.Component {
   }
 
   render() {
-    const { onDelete, onChangeName, onChangeRating } = this
+    const { onDelete, onChangeName, onChangeRating, onSave } = this
     const { name, rating } = this.state
     const { id } = this.props
     return (
       <div>
-        <form>
+        <form onSubmit={ onSave }>
           <input onChange={ onChangeName } value={ name }/>
           <input onChange={ onChangeRating } value={ rating }/>
           <button>
@@ -74,7 +82,8 @@ const mapStateToProps = ({ users }, { id }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteUser: (id) => dispatch(deleteUserFromServer(id))
+    deleteUser: (id) => dispatch(deleteUserFromServer(id)),
+    saveUser: (user) => dispatch(saveUserOnServer(user))
   }
 }
 

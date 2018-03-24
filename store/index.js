@@ -5,7 +5,8 @@ import thunk from 'redux-thunk';
 
 const GET_USERS = 'GET_USERS';
 const DELETE_USER = 'DELETE_USER';
-const INCREMENT = 'INCREMENT';
+const CREATE_USER = 'CREATE_USER';
+const UPDATE_USER = 'UPDATE_USER';
 
 const initialState = {
   users: []
@@ -24,6 +25,30 @@ export const getUsersFromServer = () => {
     return axios.get('/api/users')
       .then( res => res.data)
       .then( users => dispatch(getUsers(users)))
+  }
+}
+
+// CREATE AND UPDATE USER
+const saveUser = (user) => {
+  return {
+    type: SAVE_USER,
+    user
+  }
+}
+
+export const saveUserOnServer = (user) => {
+  const { id } = user;
+  const method = id ? 'put' : 'post';
+  const action = id ? UPDATE_USER : CREATE_USER
+  const url = `/api/users/${id ? id : ''}`;
+  return (dispatch) => {
+    return axios[method](url, user)
+      .then( res => res.data)
+      .then( user => dispatch({
+        type: action,
+        user
+      }))
+      .then(() => location.hash = '/users')
   }
 }
 
@@ -53,6 +78,9 @@ const reducer = (state = initialState, action) => {
     case DELETE_USER:
       const users = state.users.filter(user => user.id !== action.id)
       return Object.assign({}, state, { users })
+
+    case CREATE_USER:
+      return Object.assign({}, state, { users: [...state.users, action.user ]})
 
   }
   return state

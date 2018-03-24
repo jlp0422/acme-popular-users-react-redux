@@ -1985,7 +1985,7 @@ function isPlainObject(value) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteUserFromServer = exports.getUsersFromServer = undefined;
+exports.deleteUserFromServer = exports.saveUserOnServer = exports.getUsersFromServer = undefined;
 
 var _axios = __webpack_require__(123);
 
@@ -1999,10 +1999,13 @@ var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var GET_USERS = 'GET_USERS'; /* eslint-disable */
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /* eslint-disable */
 
+
+var GET_USERS = 'GET_USERS';
 var DELETE_USER = 'DELETE_USER';
-var INCREMENT = 'INCREMENT';
+var CREATE_USER = 'CREATE_USER';
+var UPDATE_USER = 'UPDATE_USER';
 
 var initialState = {
   users: []
@@ -2021,6 +2024,34 @@ var getUsersFromServer = exports.getUsersFromServer = function getUsersFromServe
       return res.data;
     }).then(function (users) {
       return dispatch(getUsers(users));
+    });
+  };
+};
+
+// CREATE AND UPDATE USER
+var saveUser = function saveUser(user) {
+  return {
+    type: SAVE_USER,
+    user: user
+  };
+};
+
+var saveUserOnServer = exports.saveUserOnServer = function saveUserOnServer(user) {
+  var id = user.id;
+
+  var method = id ? 'put' : 'post';
+  var action = id ? UPDATE_USER : CREATE_USER;
+  var url = '/api/users/' + (id ? id : '');
+  return function (dispatch) {
+    return _axios2.default[method](url, user).then(function (res) {
+      return res.data;
+    }).then(function (user) {
+      return dispatch({
+        type: action,
+        user: user
+      });
+    }).then(function () {
+      return location.hash = '/users';
     });
   };
 };
@@ -2057,6 +2088,9 @@ var reducer = function reducer() {
         return user.id !== action.id;
       });
       return Object.assign({}, state, { users: users });
+
+    case CREATE_USER:
+      return Object.assign({}, state, { users: [].concat(_toConsumableArray(state.users), [action.user]) });
 
   }
   return state;
@@ -26480,7 +26514,8 @@ var UserForm = function (_React$Component) {
 
   function UserForm(_ref) {
     var user = _ref.user,
-        deleteUser = _ref.deleteUser;
+        deleteUser = _ref.deleteUser,
+        saveUser = _ref.saveUser;
 
     _classCallCheck(this, UserForm);
 
@@ -26493,6 +26528,7 @@ var UserForm = function (_React$Component) {
     _this.onDelete = _this.onDelete.bind(_this);
     _this.onChangeName = _this.onChangeName.bind(_this);
     _this.onChangeRating = _this.onChangeRating.bind(_this);
+    _this.onSave = _this.onSave.bind(_this);
     return _this;
   }
 
@@ -26516,6 +26552,17 @@ var UserForm = function (_React$Component) {
       this.props.deleteUser(id);
     }
   }, {
+    key: 'onSave',
+    value: function onSave(ev) {
+      ev.preventDefault();
+      var id = this.props.id;
+      var _state = this.state,
+          name = _state.name,
+          rating = _state.rating;
+
+      this.props.saveUser({ id: id, name: name, rating: rating });
+    }
+  }, {
     key: 'onChangeName',
     value: function onChangeName(ev) {
       var name = ev.target.value;
@@ -26532,10 +26579,11 @@ var UserForm = function (_React$Component) {
     value: function render() {
       var onDelete = this.onDelete,
           onChangeName = this.onChangeName,
-          onChangeRating = this.onChangeRating;
-      var _state = this.state,
-          name = _state.name,
-          rating = _state.rating;
+          onChangeRating = this.onChangeRating,
+          onSave = this.onSave;
+      var _state2 = this.state,
+          name = _state2.name,
+          rating = _state2.rating;
       var id = this.props.id;
 
       return _react2.default.createElement(
@@ -26543,7 +26591,7 @@ var UserForm = function (_React$Component) {
         null,
         _react2.default.createElement(
           'form',
-          null,
+          { onSubmit: onSave },
           _react2.default.createElement('input', { onChange: onChangeName, value: name }),
           _react2.default.createElement('input', { onChange: onChangeRating, value: rating }),
           _react2.default.createElement(
@@ -26582,6 +26630,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     deleteUser: function deleteUser(id) {
       return dispatch((0, _store.deleteUserFromServer)(id));
+    },
+    saveUser: function saveUser(user) {
+      return dispatch((0, _store.saveUserOnServer)(user));
     }
   };
 };
