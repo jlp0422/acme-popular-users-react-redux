@@ -14,11 +14,11 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Router >
+      <Router>
         <div>
           <Nav />
+          <Route exact path ='/' component={ Home } />
           <Switch>
-            <Route exact path ='/' component={ Home } />
             <Route exact path='/users' component={ Users } />
             <Route exact path='/users/create' render={({ history }) => <UserForm history={ history }/>} />
             <Route exact path='/users/:id' render={({ match, history }) => <UserForm id={ match.params.id*1} history={ history } />} />

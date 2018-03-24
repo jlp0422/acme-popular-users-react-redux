@@ -31,7 +31,7 @@ const mapStateToProps = ({ users }) => {
   })
   return {
     users,
-    topUser
+    topUser,
   }
 }
 

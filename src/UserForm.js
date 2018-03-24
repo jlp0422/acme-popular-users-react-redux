@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { deleteUserFromServer, saveUserOnServer } from '../store';
 
 
@@ -58,6 +59,7 @@ class UserForm extends React.Component {
     return (
       <div>
         <h3 style={{ marginTop: 20}}>{ id ? ('Update user') : ('Create user')}</h3>
+        <h5>Error message</h5>
         <form onSubmit={ onSave }>
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Name</label>
@@ -76,7 +78,12 @@ class UserForm extends React.Component {
           </button>
         </form>
         {
-          id && <button className="btn btn-outline-danger" onClick={() => onDelete(id)}>Delete</button>
+          id &&
+          <div>
+            <button className="btn btn-outline-danger" onClick={() => onDelete(id)}>Delete</button>
+            <br /><br />
+            <Link to='/users'>&laquo; Back to all users</Link>
+          </div>
         }
     </div>
     )

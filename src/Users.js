@@ -8,19 +8,22 @@ const Users = ({ users, add, subtract }) => {
   return (
     <div>
       <h3 style={{ marginTop: 20 }}>These are our users</h3>
-      <ul className="list-group">
+      <div className="list-group">
         {
           users.map( user => (
-            <li className="list-group-item" style={{fontSize: 20}} key={ user.id }>
-              <Link to={`/users/${user.id}`}>{ user.name }</Link>
-              <br />
-              <button className="btn btn-danger font-weight-bold" onClick={() => subtract(user)}>-</button>
-                &nbsp;&nbsp;{ user.rating }&nbsp;&nbsp;
-              <button className="btn btn-success" onClick={() => add(user)}>+</button>
-            </li>
+            <Link key={ user.id } className="users" to={`/users/${user.id}`}>
+              <li className="list-group-item list-group-item-action" style={{fontSize: 20}} key={ user.id }>
+              {user.name}
+                <br />
+                <button className="btn btn-danger font-weight-bold" onClick={() => subtract(user)}>-</button>
+                  &nbsp;&nbsp;{ user.rating }&nbsp;&nbsp;
+                <button className="btn btn-success font-weight-bold" onClick={() => add(user)}>+</button>
+              </li>
+            </Link>
+
           ))
         }
-      </ul>
+      </div>
     </div>
   )
 }

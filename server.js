@@ -6,6 +6,7 @@ const { User } = db.models;
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')))
 app.use('/vendor', express.static(path.join(__dirname, 'node_modules')))
+app.use('/vendor', express.static(path.join(__dirname, 'public')))
 app.use(require('body-parser').json());
 
 app.get('/', (req, res, next) => {

@@ -7,9 +7,10 @@ const GET_USERS = 'GET_USERS';
 const DELETE_USER = 'DELETE_USER';
 const CREATE_USER = 'CREATE_USER';
 const UPDATE_USER = 'UPDATE_USER';
+const SAVE_ERROR = 'SAVE_ERROR';
 
 const initialState = {
-  users: []
+  users: [],
 }
 
 // GET USERS
@@ -99,6 +100,7 @@ export const decrementOnServer = (user) => {
   }
 }
 
+// ADD SORTING ONCE USERS ARE UPDATED ON THE STATE
 function compare(a, b) {
   const user1 = a.rating
   const user2 = b.rating
