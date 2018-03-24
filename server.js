@@ -45,7 +45,6 @@ app.delete('/api/users/:id', (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  console.log('*** ERROR ***', err.errors[0].message)
   res.status(500).send({ type: err.errors[0].type, message: err.errors[0].message})
 });
 
