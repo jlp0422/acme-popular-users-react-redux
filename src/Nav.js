@@ -1,22 +1,26 @@
 /* eslint-disable */
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Nav = ({ users, topUser }) => {
   return (
-    <ul>
-      <li>
-        <NavLink to='/'>Home</NavLink>
+    <ul className="nav nav-tabs">
+      <li className="nav-item">
+        <Link className="nav-link" to='/'>Home</Link>
       </li>
-      <li>
-        <NavLink to='/users'>Users ({ users.length })</NavLink>
+      <li className="nav-item">
+        <Link className="nav-link" to='/users'>Users ({ users.length })</Link>
       </li>
-      <li>
-        <NavLink to={`/users/${topUser.id}`}>Top User: { topUser.name } ({topUser.rating})</NavLink>
-      </li>
-      <li>
-        <NavLink to='/users/create'>Create User</NavLink>
+      {
+        users.length &&
+        <li className="nav-item">
+          <Link className="nav-link" to={`/users/${topUser.id}`}>Top User: {topUser.name} ({topUser.rating})</Link>
+        </li>
+      }
+
+      <li className="nav-item">
+        <Link className="nav-link" to='/users/create'>Create User</Link>
       </li>
     </ul>
   )
