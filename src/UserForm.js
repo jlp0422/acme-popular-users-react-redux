@@ -2,11 +2,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { deleteUserFromServer, saveUserOnServer } from '../store';
-
+import { deleteUserFromServer, saveUserOnServer, errorHandler } from '../store';
 
 class UserForm extends React.Component {
-  constructor({ user, deleteUser, saveUser }) {
+  constructor({ user, error, deleteUser, saveUser }) {
     super()
     this.state = {
       name: user ? user.name : '',
@@ -20,15 +19,10 @@ class UserForm extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { user } = nextProps
-    this.setState(
-      user ? ({
-        name: user.name,
-        rating: user.rating
-      }) : ({
-        name: '',
-        rating: ''
-      })
-    )
+    this.setState({
+      name: user ? user.name : '',
+      rating: user ? user.rating : ''
+    })
   }
 
   onDelete(id) {
@@ -55,18 +49,23 @@ class UserForm extends React.Component {
   render() {
     const { onDelete, onChangeName, onChangeRating, onSave } = this
     const { name, rating } = this.state
-    const { id } = this.props
+    const { id, error } = this.props
     return (
       <div>
         <h3 style={{ marginTop: 20}}>{ id ? ('Update user') : ('Create user')}</h3>
-       {/*
-        <div className="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Uh oh! Looks like you ran into an error</strong> You should check in on some of those fields below.
-          <button className="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-    */}
+
+        {
+          error.message &&
+          <div id="error-alert" className="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{error.type}: </strong> {error.message}
+            <button onClick={() => {
+              document.getElementById('error-alert').remove()
+            }} className="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        }
+
         <form onSubmit={ onSave }>
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Name</label>
@@ -74,16 +73,20 @@ class UserForm extends React.Component {
               <input className="form-control" onChange={onChangeName} value={name} />
             </div>
           </div>
+
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Rating</label>
             <div className="col-sm-10">
               <input className="form-control" onChange={onChangeRating} value={rating} />
             </div>
           </div>
+
           <button style={{margin: '10px 0 20px'}} className="btn btn-outline-success" disabled={name && rating ? null : true}>
             { id ? ('Update') : ('Save') }
           </button>
+
         </form>
+
         {
           id &&
           <div>
@@ -92,22 +95,24 @@ class UserForm extends React.Component {
             <Link to='/users'>&laquo; Back to all users</Link>
           </div>
         }
+
     </div>
     )
   }
 }
 
-const mapStateToProps = ({ users }, { id }) => {
+const mapStateToProps = ({ users, error }, { id }) => {
   const user = users.find( u => u.id === id)
   return {
-    user
+    user,
+    error
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteUser: (id) => dispatch(deleteUserFromServer(id)),
-    saveUser: (user) => dispatch(saveUserOnServer(user))
+    saveUser: (user) => dispatch(saveUserOnServer(user)),
   }
 }
 

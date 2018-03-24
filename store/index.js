@@ -7,10 +7,11 @@ const GET_USERS = 'GET_USERS';
 const DELETE_USER = 'DELETE_USER';
 const CREATE_USER = 'CREATE_USER';
 const UPDATE_USER = 'UPDATE_USER';
-const SAVE_ERROR = 'SAVE_ERROR';
+const ERROR = 'ERROR';
 
 const initialState = {
   users: [],
+  error: ''
 }
 
 // GET USERS
@@ -26,6 +27,7 @@ export const getUsersFromServer = () => {
     return axios.get('/api/users')
       .then( res => res.data)
       .then( users => dispatch(getUsers(users)))
+      .catch(err => dispatch(errorHandler(err.response.data)))
   }
 }
 
@@ -50,7 +52,7 @@ export const saveUserOnServer = (user) => {
         user
       }))
       .then(() => location.hash = '/users')
-      .catch(err => console.log(err))
+      .catch(err => dispatch(errorHandler(err.response.data)))
   }
 }
 
@@ -67,6 +69,7 @@ export const deleteUserFromServer = (id) => {
     return axios.delete(`/api/users/${id}`)
       .then(() => dispatch(deleteUser(id)))
       .then(() => location.hash = '/users' )
+      .catch(err => dispatch(errorHandler(err.response.data)))
   }
 }
 
@@ -81,11 +84,12 @@ const changeRating = (user) => {
 export const incrementOnServer = (user) => {
   const { id } = user
   let { rating } = user
-  const newRating = rating+1
+  const newRating = rating + 1
   return (dispatch) => {
     return axios.put(`/api/users/${id}`, {rating: newRating})
       .then( res => res.data)
       .then( user => dispatch(changeRating(user)))
+      .catch(err => dispatch(errorHandler(err.response.data)))
   }
 }
 
@@ -97,6 +101,14 @@ export const decrementOnServer = (user) => {
     return axios.put(`/api/users/${id}`, { rating: newRating })
       .then(res => res.data)
       .then(user => dispatch(changeRating(user)))
+      .catch(err => dispatch(errorHandler(err.response.data)))
+  }
+}
+
+export const errorHandler = (error) => {
+  return {
+    type: ERROR,
+    error
   }
 }
 
@@ -129,8 +141,10 @@ const reducer = (state = initialState, action) => {
       const otherUsers = state.users.filter(user => user.id !== action.user.id)
       const allUsers = [...otherUsers, action.user]
       const usersSorted = allUsers.sort(compare)
-      return Object.assign({}, state, { users: usersSorted})
+      return Object.assign({}, state, { users: usersSorted })
 
+    case ERROR:
+      return Object.assign({}, state, { error: action.error })
   }
   return state
 }

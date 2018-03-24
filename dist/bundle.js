@@ -1332,7 +1332,7 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.decrementOnServer = exports.incrementOnServer = exports.deleteUserFromServer = exports.saveUserOnServer = exports.getUsersFromServer = undefined;
+exports.errorHandler = exports.decrementOnServer = exports.incrementOnServer = exports.deleteUserFromServer = exports.saveUserOnServer = exports.getUsersFromServer = undefined;
 
 var _axios = __webpack_require__(123);
 
@@ -1353,10 +1353,11 @@ var GET_USERS = 'GET_USERS';
 var DELETE_USER = 'DELETE_USER';
 var CREATE_USER = 'CREATE_USER';
 var UPDATE_USER = 'UPDATE_USER';
-var SAVE_ERROR = 'SAVE_ERROR';
+var ERROR = 'ERROR';
 
 var initialState = {
-  users: []
+  users: [],
+  error: ''
 
   // GET USERS
 };var getUsers = function getUsers(users) {
@@ -1372,6 +1373,8 @@ var getUsersFromServer = exports.getUsersFromServer = function getUsersFromServe
       return res.data;
     }).then(function (users) {
       return dispatch(getUsers(users));
+    }).catch(function (err) {
+      return dispatch(errorHandler(err.response.data));
     });
   };
 };
@@ -1401,7 +1404,7 @@ var saveUserOnServer = exports.saveUserOnServer = function saveUserOnServer(user
     }).then(function () {
       return location.hash = '/users';
     }).catch(function (err) {
-      return console.log(err);
+      return dispatch(errorHandler(err.response.data));
     });
   };
 };
@@ -1420,6 +1423,8 @@ var deleteUserFromServer = exports.deleteUserFromServer = function deleteUserFro
       return dispatch(deleteUser(id));
     }).then(function () {
       return location.hash = '/users';
+    }).catch(function (err) {
+      return dispatch(errorHandler(err.response.data));
     });
   };
 };
@@ -1442,6 +1447,8 @@ var incrementOnServer = exports.incrementOnServer = function incrementOnServer(u
       return res.data;
     }).then(function (user) {
       return dispatch(changeRating(user));
+    }).catch(function (err) {
+      return dispatch(errorHandler(err.response.data));
     });
   };
 };
@@ -1456,7 +1463,16 @@ var decrementOnServer = exports.decrementOnServer = function decrementOnServer(u
       return res.data;
     }).then(function (user) {
       return dispatch(changeRating(user));
+    }).catch(function (err) {
+      return dispatch(errorHandler(err.response.data));
     });
+  };
+};
+
+var errorHandler = exports.errorHandler = function errorHandler(error) {
+  return {
+    type: ERROR,
+    error: error
   };
 };
 
@@ -1497,6 +1513,8 @@ var reducer = function reducer() {
       var usersSorted = allUsers.sort(compare);
       return Object.assign({}, state, { users: usersSorted });
 
+    case ERROR:
+      return Object.assign({}, state, { error: action.error });
   }
   return state;
 };
@@ -4287,6 +4305,13 @@ var _reactRedux = __webpack_require__(7);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var root = document.getElementById('root');
+
+// const alertButton = document.getElementById('alertClose')
+// console.log(alertButton)
+
+// alertButton.addEventListener('click', () => {
+//   console.log('click!')
+// })
 
 (0, _reactDom.render)(_react2.default.createElement(
   _reactRedux.Provider,
@@ -27591,6 +27616,7 @@ var UserForm = function (_React$Component) {
 
   function UserForm(_ref) {
     var user = _ref.user,
+        error = _ref.error,
         deleteUser = _ref.deleteUser,
         saveUser = _ref.saveUser;
 
@@ -27614,12 +27640,9 @@ var UserForm = function (_React$Component) {
     value: function componentWillReceiveProps(nextProps) {
       var user = nextProps.user;
 
-      this.setState(user ? {
-        name: user.name,
-        rating: user.rating
-      } : {
-        name: '',
-        rating: ''
+      this.setState({
+        name: user ? user.name : '',
+        rating: user ? user.rating : ''
       });
     }
   }, {
@@ -27660,7 +27683,9 @@ var UserForm = function (_React$Component) {
       var _state2 = this.state,
           name = _state2.name,
           rating = _state2.rating;
-      var id = this.props.id;
+      var _props = this.props,
+          id = _props.id,
+          error = _props.error;
 
       return _react2.default.createElement(
         'div',
@@ -27670,18 +27695,22 @@ var UserForm = function (_React$Component) {
           { style: { marginTop: 20 } },
           id ? 'Update user' : 'Create user'
         ),
-        _react2.default.createElement(
+        error.message && _react2.default.createElement(
           'div',
-          { className: 'alert alert-danger alert-dismissible fade show', role: 'alert' },
+          { id: 'error-alert', className: 'alert alert-danger alert-dismissible fade show', role: 'alert' },
           _react2.default.createElement(
             'strong',
             null,
-            'Uh oh! Looks like you ran into an error'
+            error.type,
+            ': '
           ),
-          ' You should check in on some of those fields below.',
+          ' ',
+          error.message,
           _react2.default.createElement(
             'button',
-            { className: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close' },
+            { onClick: function onClick() {
+                document.getElementById('error-alert').remove();
+              }, className: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close' },
             _react2.default.createElement(
               'span',
               { 'aria-hidden': 'true' },
@@ -27752,14 +27781,16 @@ var UserForm = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(_ref2, _ref3) {
-  var users = _ref2.users;
+  var users = _ref2.users,
+      error = _ref2.error;
   var id = _ref3.id;
 
   var user = users.find(function (u) {
     return u.id === id;
   });
   return {
-    user: user
+    user: user,
+    error: error
   };
 };
 
