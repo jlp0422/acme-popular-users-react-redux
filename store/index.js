@@ -82,6 +82,9 @@ const reducer = (state = initialState, action) => {
     case CREATE_USER:
       return Object.assign({}, state, { users: [...state.users, action.user ]})
 
+    case UPDATE_USER:
+      const otherUsers = state.users.filter(user => user.id !== action.user.id)
+      return Object.assign({}, state, { users: [...otherUsers, action.user ]})
   }
   return state
 }

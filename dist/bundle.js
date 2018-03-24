@@ -2092,6 +2092,11 @@ var reducer = function reducer() {
     case CREATE_USER:
       return Object.assign({}, state, { users: [].concat(_toConsumableArray(state.users), [action.user]) });
 
+    case UPDATE_USER:
+      var otherUsers = state.users.filter(function (user) {
+        return user.id !== action.user.id;
+      });
+      return Object.assign({}, state, { users: [].concat(_toConsumableArray(otherUsers), [action.user]) });
   }
   return state;
 };
