@@ -76,28 +76,36 @@ class UserForm extends React.Component {
             <label className="col-sm-2 col-form-label font-weight-bold">Name</label>
             <div className="col-sm-10">
               <input
+                id="name-input"
                 type="text"
                 placeholder="Letters only, please"
-                className={`form-control ${name ? 'full' : 'empty'}`}
+                className="form-control"
                 name="name"
                 onChange={onChange}
                 value={name}
               />
+              <div id="name-alert" className="alert alert-danger alert-dismissible fade show show-error" role="alert">
+                <strong>Hey, that's not a letter</strong>
+              </div>
             </div>
+
           </div>
 
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Rating</label>
             <div className="col-sm-10 has-danger">
               <input
-                id="inputDanger1"
+                id="rating-input"
                 type="tel"
                 placeholder="Numbers only, please"
-                className={`form-control form-control-danger ${rating ? 'full' : 'empty'}`}
+                className="form-control form-control-danger"
                 name="rating"
                 onChange={onChange}
                 value={rating}
               />
+              <div id="rating-alert" className="alert alert-danger alert-dismissible fade show show-error" role="alert">
+                <strong>Hey, that's not a number</strong>
+              </div>
             </div>
           </div>
 

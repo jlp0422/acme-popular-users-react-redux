@@ -3,15 +3,21 @@
 }
 
 input.empty:focus {
-  outline-style:none;
+  /* outline-style:none;
   box-shadow:none;
-  border-color:transparent;
-  border: 2px solid red;
+  border-color:transparent; */
+  /* border: 2px solid red; */
 }
 
 input.full:focus {
-  outline-style:none;
+  /* outline-style:none;
   box-shadow:none;
-  border-color:transparent;
-  border: 2px solid #36c565;
+  border-color:transparent; */
+  /* border: 2px solid #36c565; */
+}
+
+.show-error {
+  visibility: hidden;
+  display: none;
+  border: 2px solid red;
 }

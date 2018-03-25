@@ -27770,13 +27770,23 @@ var UserForm = function (_React$Component) {
               'div',
               { className: 'col-sm-10' },
               _react2.default.createElement('input', {
+                id: 'name-input',
                 type: 'text',
                 placeholder: 'Letters only, please',
-                className: 'form-control ' + (name ? 'full' : 'empty'),
+                className: 'form-control',
                 name: 'name',
                 onChange: onChange,
                 value: name
-              })
+              }),
+              _react2.default.createElement(
+                'div',
+                { id: 'name-alert', className: 'alert alert-danger alert-dismissible fade show show-error', role: 'alert' },
+                _react2.default.createElement(
+                  'strong',
+                  null,
+                  'Hey, that\'s not a letter'
+                )
+              )
             )
           ),
           _react2.default.createElement(
@@ -27791,14 +27801,23 @@ var UserForm = function (_React$Component) {
               'div',
               { className: 'col-sm-10 has-danger' },
               _react2.default.createElement('input', {
-                id: 'inputDanger1',
+                id: 'rating-input',
                 type: 'tel',
                 placeholder: 'Numbers only, please',
-                className: 'form-control form-control-danger ' + (rating ? 'full' : 'empty'),
+                className: 'form-control form-control-danger',
                 name: 'rating',
                 onChange: onChange,
                 value: rating
-              })
+              }),
+              _react2.default.createElement(
+                'div',
+                { id: 'rating-alert', className: 'alert alert-danger alert-dismissible fade show show-error', role: 'alert' },
+                _react2.default.createElement(
+                  'strong',
+                  null,
+                  'Hey, that\'s not a number'
+                )
+              )
             )
           ),
           _react2.default.createElement(
