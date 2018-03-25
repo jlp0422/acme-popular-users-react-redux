@@ -84,8 +84,8 @@ class UserForm extends React.Component {
                 onChange={onChange}
                 value={name}
               />
-              <div id="name-alert" className="alert alert-danger alert-dismissible fade show show-error" role="alert">
-                <strong>Hey, that's not a letter</strong>
+              <div style={{ marginTop: 10 }} id="name-alert" className="alert alert-danger show-error" role="alert">
+                <strong>Hey, that's not a letter!</strong>
               </div>
             </div>
 
@@ -103,8 +103,8 @@ class UserForm extends React.Component {
                 onChange={onChange}
                 value={rating}
               />
-              <div id="rating-alert" className="alert alert-danger alert-dismissible fade show show-error" role="alert">
-                <strong>Hey, that's not a number</strong>
+              <div style={{ marginTop: 10 }} id="rating-alert" className="alert alert-danger show-error" role="alert">
+                <strong>Hey, that's not a number!</strong>
               </div>
             </div>
           </div>

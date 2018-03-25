@@ -27780,11 +27780,11 @@ var UserForm = function (_React$Component) {
               }),
               _react2.default.createElement(
                 'div',
-                { id: 'name-alert', className: 'alert alert-danger alert-dismissible fade show show-error', role: 'alert' },
+                { style: { marginTop: 10 }, id: 'name-alert', className: 'alert alert-danger show-error', role: 'alert' },
                 _react2.default.createElement(
                   'strong',
                   null,
-                  'Hey, that\'s not a letter'
+                  'Hey, that\'s not a letter!'
                 )
               )
             )
@@ -27811,11 +27811,11 @@ var UserForm = function (_React$Component) {
               }),
               _react2.default.createElement(
                 'div',
-                { id: 'rating-alert', className: 'alert alert-danger alert-dismissible fade show show-error', role: 'alert' },
+                { style: { marginTop: 10 }, id: 'rating-alert', className: 'alert alert-danger show-error', role: 'alert' },
                 _react2.default.createElement(
                   'strong',
                   null,
-                  'Hey, that\'s not a number'
+                  'Hey, that\'s not a number!'
                 )
               )
             )

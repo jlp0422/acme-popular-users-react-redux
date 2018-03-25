@@ -1,9 +1,8 @@
 /* eslint-disable */
 const nameInput = document.getElementById('name-input');
-const nameAlert = document.getElementById('name-alert');
 const ratingInput = document.getElementById('rating-input');
-const ratingAlert = document.getElementById('rating-alert');
 
+// determines whether to show or hide message, and where to show it
 const showOrHideMessage = (bool, alert) => {
   bool ? alert.classList.remove('show-error') : alert.classList.add('show-error')
 }
@@ -18,6 +17,7 @@ const isValidNumber = (num) => {
   return /^[\d]+$/.test(num)
 }
 
+// determining whether input is valid
 const createListener = (validator) => {
   return (e) => {
     const text = e.target.value
@@ -28,6 +28,6 @@ const createListener = (validator) => {
   }
 }
 
+// event listeners for each input
 nameInput.addEventListener('input', createListener(isValidName))
-
 ratingInput.addEventListener('input', createListener(isValidNumber))
