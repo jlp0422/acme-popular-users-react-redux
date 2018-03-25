@@ -2,15 +2,16 @@
   /* text-decoration: none; */
 }
 
-.empty:focus {
+input.empty:focus {
+  outline-style:none;
+  box-shadow:none;
+  border-color:transparent;
   border: 2px solid red;
-  outline: none;
 }
 
-/* .list-group-item-action:hover {
-  background-color: #f0f3f8
+input.full:focus {
+  outline-style:none;
+  box-shadow:none;
+  border-color:transparent;
+  border: 2px solid #36c565;
 }
-
-.list-group-item-action:active {
-  background-color: red
-} */

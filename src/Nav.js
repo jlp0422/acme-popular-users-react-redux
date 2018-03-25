@@ -43,7 +43,6 @@ const Nav = ({ users, topUser }) => {
             :
             (<Link className="nav-link" to='/users/create'>Create User</Link>)
         }
-
       </li>
     </ul>
   )

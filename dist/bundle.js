@@ -27662,8 +27662,6 @@ var UserForm = function (_React$Component) {
       }
     };
     _this.onDelete = _this.onDelete.bind(_this);
-    // this.onChangeName = this.onChangeName.bind(this)
-    // this.onChangeRating = this.onChangeRating.bind(this)
     _this.onSave = _this.onSave.bind(_this);
     _this.onChange = _this.onChange.bind(_this);
     return _this;
@@ -27712,17 +27710,6 @@ var UserForm = function (_React$Component) {
       user[attribute] = input;
       this.setState({ user: user });
     }
-
-    // onChangeName(ev) {
-    //   const name = ev.target.value
-    //   this.setState({ name })
-    // }
-
-    // onChangeRating(ev) {
-    //   const rating = ev.target.value
-    //   this.setState({ rating })
-    // }
-
   }, {
     key: 'render',
     value: function render() {
@@ -27782,7 +27769,14 @@ var UserForm = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-sm-10' },
-              _react2.default.createElement('input', { placeholder: 'Name goes here', className: 'form-control', name: 'name', onChange: onChange, value: name })
+              _react2.default.createElement('input', {
+                type: 'text',
+                placeholder: 'Letters only, please',
+                className: 'form-control ' + (name ? 'full' : 'empty'),
+                name: 'name',
+                onChange: onChange,
+                value: name
+              })
             )
           ),
           _react2.default.createElement(
@@ -27795,8 +27789,16 @@ var UserForm = function (_React$Component) {
             ),
             _react2.default.createElement(
               'div',
-              { className: 'col-sm-10' },
-              _react2.default.createElement('input', { placeholder: 'Rating goes here', className: 'form-control', name: 'rating', onChange: onChange, value: rating })
+              { className: 'col-sm-10 has-danger' },
+              _react2.default.createElement('input', {
+                id: 'inputDanger1',
+                type: 'tel',
+                placeholder: 'Numbers only, please',
+                className: 'form-control form-control-danger ' + (rating ? 'full' : 'empty'),
+                name: 'rating',
+                onChange: onChange,
+                value: rating
+              })
             )
           ),
           _react2.default.createElement(

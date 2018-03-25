@@ -14,8 +14,6 @@ class UserForm extends React.Component {
       }
     }
     this.onDelete = this.onDelete.bind(this)
-    // this.onChangeName = this.onChangeName.bind(this)
-    // this.onChangeRating = this.onChangeRating.bind(this)
     this.onSave = this.onSave.bind(this)
     this.onChange = this.onChange.bind(this)
   }
@@ -53,16 +51,6 @@ class UserForm extends React.Component {
     this.setState({ user })
   }
 
-  // onChangeName(ev) {
-  //   const name = ev.target.value
-  //   this.setState({ name })
-  // }
-
-  // onChangeRating(ev) {
-  //   const rating = ev.target.value
-  //   this.setState({ rating })
-  // }
-
   render() {
     const { onDelete, onSave, onChange } = this
     const { name, rating } = this.state.user
@@ -87,14 +75,29 @@ class UserForm extends React.Component {
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Name</label>
             <div className="col-sm-10">
-              <input placeholder="Name goes here" className="form-control" name="name" onChange={onChange} value={name} />
+              <input
+                type="text"
+                placeholder="Letters only, please"
+                className={`form-control ${name ? 'full' : 'empty'}`}
+                name="name"
+                onChange={onChange}
+                value={name}
+              />
             </div>
           </div>
 
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Rating</label>
-            <div className="col-sm-10">
-              <input placeholder="Rating goes here" className="form-control" name="rating" onChange={onChange} value={rating} />
+            <div className="col-sm-10 has-danger">
+              <input
+                id="inputDanger1"
+                type="tel"
+                placeholder="Numbers only, please"
+                className={`form-control form-control-danger ${rating ? 'full' : 'empty'}`}
+                name="rating"
+                onChange={onChange}
+                value={rating}
+              />
             </div>
           </div>
 
