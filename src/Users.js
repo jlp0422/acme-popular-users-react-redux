@@ -7,7 +7,7 @@ import { incrementOnServer, decrementOnServer } from '../store';
 const Users = ({ users, add, subtract, topUser }) => {
   return (
     <div>
-      <h3 style={{ marginTop: 20 }}>These are our users. {topUser.name} is currently our highest rated user with a {topUser.rating} rating.</h3>
+      <h3 style={{ marginTop: 20 }}>These are our users. {topUser.name} is currently our highest rated user with a {topUser.rating}.0 rating.</h3>
       <div className="list-group">
         {
           users.map( user => (

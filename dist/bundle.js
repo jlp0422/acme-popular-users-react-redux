@@ -26638,7 +26638,7 @@ var Users = function Users(_ref) {
       topUser.name,
       ' is currently our highest rated user with a ',
       topUser.rating,
-      ' rating.'
+      '.0 rating.'
     ),
     _react2.default.createElement(
       'div',
