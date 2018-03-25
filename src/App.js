@@ -12,11 +12,12 @@ class App extends React.Component {
   componentDidMount() {
     this.props.getUsers();
   }
+
   render() {
     return (
       <Router>
         <div>
-          <Nav />
+          <Route path ='/' component={ Nav } />
           <Route exact path ='/' component={ Home } />
           <Switch>
             <Route exact path='/users' component={ Users } />

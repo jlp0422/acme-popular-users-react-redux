@@ -21673,7 +21673,7 @@ var App = function (_React$Component) {
         _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(_Nav2.default, null),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _Nav2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
           _react2.default.createElement(
             _reactRouterDom.Switch,
@@ -26498,14 +26498,18 @@ var Nav = function Nav(_ref) {
   var users = _ref.users,
       topUser = _ref.topUser;
 
-  // console.log(location.hash)
+  var loc = location.hash;
   return _react2.default.createElement(
     'ul',
     { style: { marginTop: 10 }, className: 'nav nav-tabs' },
     _react2.default.createElement(
       'li',
       { className: 'nav-item' },
-      _react2.default.createElement(
+      loc === '#/' ? _react2.default.createElement(
+        'span',
+        { className: 'nav-link active font-weight-bold' },
+        'Home'
+      ) : _react2.default.createElement(
         _reactRouterDom.Link,
         { className: 'nav-link', to: '/' },
         'Home'
@@ -26514,7 +26518,16 @@ var Nav = function Nav(_ref) {
     _react2.default.createElement(
       'li',
       { className: 'nav-item' },
-      _react2.default.createElement(
+      loc === '#/users' ? _react2.default.createElement(
+        'span',
+        { className: 'nav-link active font-weight-bold' },
+        'Users: ',
+        _react2.default.createElement(
+          'span',
+          { style: { fontSize: 14 }, className: 'badge badge-pill badge-primary' },
+          users.length
+        )
+      ) : _react2.default.createElement(
         _reactRouterDom.Link,
         { className: 'nav-link', to: '/users' },
         'Users: ',
@@ -26528,7 +26541,19 @@ var Nav = function Nav(_ref) {
     users.length ? _react2.default.createElement(
       'li',
       { className: 'nav-item' },
-      _react2.default.createElement(
+      loc.match(/users\/[\d]/) ? _react2.default.createElement(
+        'span',
+        { className: 'nav-link active font-weight-bold' },
+        'Top User: ',
+        _react2.default.createElement(
+          'span',
+          { style: { fontSize: 14 }, className: 'badge badge-pill badge-primary' },
+          topUser.name,
+          ' (',
+          topUser.rating,
+          ')'
+        )
+      ) : _react2.default.createElement(
         _reactRouterDom.Link,
         { className: 'nav-link', to: '/users/' + topUser.id },
         'Top User: ',
@@ -26545,7 +26570,11 @@ var Nav = function Nav(_ref) {
     _react2.default.createElement(
       'li',
       { className: 'nav-item' },
-      _react2.default.createElement(
+      loc === '#/users/create' ? _react2.default.createElement(
+        'span',
+        { className: 'nav-link active font-weight-bold' },
+        'Create User'
+      ) : _react2.default.createElement(
         _reactRouterDom.Link,
         { className: 'nav-link', to: '/users/create' },
         'Create User'
