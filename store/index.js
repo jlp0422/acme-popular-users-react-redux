@@ -83,10 +83,10 @@ const changeRating = (user) => {
 
 export const incrementOnServer = (user) => {
   const { id } = user
-  let { rating } = user
-  const newRating = rating + 1
+  const { rating } = user
+  let newRating = rating
   return (dispatch) => {
-    return axios.put(`/api/users/${id}`, {rating: newRating})
+    return axios.put(`/api/users/${id}`, {rating: ++newRating})
       .then( res => res.data)
       .then( user => dispatch(changeRating(user)))
       .catch(err => dispatch(errorHandler(err.response.data)))
@@ -95,10 +95,10 @@ export const incrementOnServer = (user) => {
 
 export const decrementOnServer = (user) => {
   const { id } = user
-  let { rating } = user
-  const newRating = rating - 1
+  const { rating } = user
+  let newRating = rating
   return (dispatch) => {
-    return axios.put(`/api/users/${id}`, { rating: newRating })
+    return axios.put(`/api/users/${id}`, { rating: --newRating })
       .then(res => res.data)
       .then(user => dispatch(changeRating(user)))
       .catch(err => dispatch(errorHandler(err.response.data)))

@@ -1441,9 +1441,9 @@ var incrementOnServer = exports.incrementOnServer = function incrementOnServer(u
   var id = user.id;
   var rating = user.rating;
 
-  var newRating = rating + 1;
+  var newRating = rating;
   return function (dispatch) {
-    return _axios2.default.put('/api/users/' + id, { rating: newRating }).then(function (res) {
+    return _axios2.default.put('/api/users/' + id, { rating: ++newRating }).then(function (res) {
       return res.data;
     }).then(function (user) {
       return dispatch(changeRating(user));
@@ -1457,9 +1457,9 @@ var decrementOnServer = exports.decrementOnServer = function decrementOnServer(u
   var id = user.id;
   var rating = user.rating;
 
-  var newRating = rating - 1;
+  var newRating = rating;
   return function (dispatch) {
-    return _axios2.default.put('/api/users/' + id, { rating: newRating }).then(function (res) {
+    return _axios2.default.put('/api/users/' + id, { rating: --newRating }).then(function (res) {
       return res.data;
     }).then(function (user) {
       return dispatch(changeRating(user));
@@ -26625,7 +26625,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Users = function Users(_ref) {
   var users = _ref.users,
       add = _ref.add,
-      subtract = _ref.subtract;
+      subtract = _ref.subtract,
+      topUser = _ref.topUser;
 
   return _react2.default.createElement(
     'div',
@@ -26633,7 +26634,11 @@ var Users = function Users(_ref) {
     _react2.default.createElement(
       'h3',
       { style: { marginTop: 20 } },
-      'These are our users'
+      'These are our users. ',
+      topUser.name,
+      ' is currently our highest rated user with a ',
+      topUser.rating,
+      ' rating.'
     ),
     _react2.default.createElement(
       'div',
@@ -26674,8 +26679,12 @@ var Users = function Users(_ref) {
 var mapStateToProps = function mapStateToProps(_ref2) {
   var users = _ref2.users;
 
+  var topUser = users.length && users.reduce(function (memo, item) {
+    return memo.rating >= item.rating ? memo : item;
+  });
   return {
-    users: users
+    users: users,
+    topUser: topUser
   };
 };
 
