@@ -8,13 +8,16 @@ class UserForm extends React.Component {
   constructor({ user, error, deleteUser, saveUser, errorHandler }) {
     super()
     this.state = {
-      name: user ? user.name : '',
-      rating: user ? user.rating : ''
+      user: {
+        name: user ? user.name : '',
+        rating: user ? user.rating : ''
+      }
     }
     this.onDelete = this.onDelete.bind(this)
-    this.onChangeName = this.onChangeName.bind(this)
-    this.onChangeRating = this.onChangeRating.bind(this)
+    // this.onChangeName = this.onChangeName.bind(this)
+    // this.onChangeRating = this.onChangeRating.bind(this)
     this.onSave = this.onSave.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   componentWillUnmount() {
@@ -22,11 +25,12 @@ class UserForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     const { user } = nextProps
     this.setState({
-      name: user ? user.name : '',
-      rating: user ? user.rating : ''
+      user: {
+        name: user ? user.name : '',
+        rating: user ? user.rating : ''
+      }
     })
   }
 
@@ -37,23 +41,31 @@ class UserForm extends React.Component {
   onSave(ev) {
     ev.preventDefault()
     const { id } = this.props
-    const { name, rating } = this.state
+    const { name, rating } = this.state.user
     this.props.saveUser({ id, name, rating })
   }
 
-  onChangeName(ev) {
-    const name = ev.target.value
-    this.setState({ name })
+  onChange(ev) {
+    const { user } = this.state
+    const input = ev.target.value
+    const attribute = ev.target.name
+    user[attribute] = input
+    this.setState({ user })
   }
 
-  onChangeRating(ev) {
-    const rating = ev.target.value
-    this.setState({ rating })
-  }
+  // onChangeName(ev) {
+  //   const name = ev.target.value
+  //   this.setState({ name })
+  // }
+
+  // onChangeRating(ev) {
+  //   const rating = ev.target.value
+  //   this.setState({ rating })
+  // }
 
   render() {
-    const { onDelete, onChangeName, onChangeRating, onSave } = this
-    const { name, rating } = this.state
+    const { onDelete, onSave, onChange } = this
+    const { name, rating } = this.state.user
     const { id, error, errorHandler } = this.props
     return (
       <div>
@@ -75,14 +87,14 @@ class UserForm extends React.Component {
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Name</label>
             <div className="col-sm-10">
-              <input className="form-control" name="name" onChange={onChangeName} value={name} />
+              <input placeholder="Name goes here" className="form-control" name="name" onChange={onChange} value={name} />
             </div>
           </div>
 
           <div className="form-group row">
             <label className="col-sm-2 col-form-label font-weight-bold">Rating</label>
             <div className="col-sm-10">
-              <input className="form-control" name="rating" onChange={onChangeRating} value={rating} />
+              <input placeholder="Rating goes here" className="form-control" name="rating" onChange={onChange} value={rating} />
             </div>
           </div>
 

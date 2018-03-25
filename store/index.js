@@ -105,6 +105,7 @@ export const decrementOnServer = (user) => {
   }
 }
 
+// ERROR HANDLING
 export const errorHandler = (error) => {
   return {
     type: ERROR,

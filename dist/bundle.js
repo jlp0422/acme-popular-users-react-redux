@@ -1469,6 +1469,7 @@ var decrementOnServer = exports.decrementOnServer = function decrementOnServer(u
   };
 };
 
+// ERROR HANDLING
 var errorHandler = exports.errorHandler = function errorHandler(error) {
   return {
     type: ERROR,
@@ -4305,13 +4306,6 @@ var _reactRedux = __webpack_require__(7);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var root = document.getElementById('root');
-
-// const alertButton = document.getElementById('alertClose')
-// console.log(alertButton)
-
-// alertButton.addEventListener('click', () => {
-//   console.log('click!')
-// })
 
 (0, _reactDom.render)(_react2.default.createElement(
   _reactRedux.Provider,
@@ -26523,9 +26517,12 @@ var Nav = function Nav(_ref) {
       _react2.default.createElement(
         _reactRouterDom.Link,
         { className: 'nav-link', to: '/users' },
-        'Users (',
-        users.length,
-        ')'
+        'Users: ',
+        _react2.default.createElement(
+          'span',
+          { style: { fontSize: 14 }, className: 'badge badge-pill badge-primary' },
+          users.length
+        )
       )
     ),
     users.length ? _react2.default.createElement(
@@ -26535,10 +26532,14 @@ var Nav = function Nav(_ref) {
         _reactRouterDom.Link,
         { className: 'nav-link', to: '/users/' + topUser.id },
         'Top User: ',
-        topUser.name,
-        ' (',
-        topUser.rating,
-        ')'
+        _react2.default.createElement(
+          'span',
+          { style: { fontSize: 14 }, className: 'badge badge-pill badge-primary' },
+          topUser.name,
+          ' (',
+          topUser.rating,
+          ')'
+        )
       )
     ) : null,
     _react2.default.createElement(
@@ -27626,13 +27627,16 @@ var UserForm = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (UserForm.__proto__ || Object.getPrototypeOf(UserForm)).call(this));
 
     _this.state = {
-      name: user ? user.name : '',
-      rating: user ? user.rating : ''
+      user: {
+        name: user ? user.name : '',
+        rating: user ? user.rating : ''
+      }
     };
     _this.onDelete = _this.onDelete.bind(_this);
-    _this.onChangeName = _this.onChangeName.bind(_this);
-    _this.onChangeRating = _this.onChangeRating.bind(_this);
+    // this.onChangeName = this.onChangeName.bind(this)
+    // this.onChangeRating = this.onChangeRating.bind(this)
     _this.onSave = _this.onSave.bind(_this);
+    _this.onChange = _this.onChange.bind(_this);
     return _this;
   }
 
@@ -27644,12 +27648,13 @@ var UserForm = function (_React$Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      console.log(nextProps);
       var user = nextProps.user;
 
       this.setState({
-        name: user ? user.name : '',
-        rating: user ? user.rating : ''
+        user: {
+          name: user ? user.name : '',
+          rating: user ? user.rating : ''
+        }
       });
     }
   }, {
@@ -27662,34 +27667,42 @@ var UserForm = function (_React$Component) {
     value: function onSave(ev) {
       ev.preventDefault();
       var id = this.props.id;
-      var _state = this.state,
-          name = _state.name,
-          rating = _state.rating;
+      var _state$user = this.state.user,
+          name = _state$user.name,
+          rating = _state$user.rating;
 
       this.props.saveUser({ id: id, name: name, rating: rating });
     }
   }, {
-    key: 'onChangeName',
-    value: function onChangeName(ev) {
-      var name = ev.target.value;
-      this.setState({ name: name });
+    key: 'onChange',
+    value: function onChange(ev) {
+      var user = this.state.user;
+
+      var input = ev.target.value;
+      var attribute = ev.target.name;
+      user[attribute] = input;
+      this.setState({ user: user });
     }
-  }, {
-    key: 'onChangeRating',
-    value: function onChangeRating(ev) {
-      var rating = ev.target.value;
-      this.setState({ rating: rating });
-    }
+
+    // onChangeName(ev) {
+    //   const name = ev.target.value
+    //   this.setState({ name })
+    // }
+
+    // onChangeRating(ev) {
+    //   const rating = ev.target.value
+    //   this.setState({ rating })
+    // }
+
   }, {
     key: 'render',
     value: function render() {
       var onDelete = this.onDelete,
-          onChangeName = this.onChangeName,
-          onChangeRating = this.onChangeRating,
-          onSave = this.onSave;
-      var _state2 = this.state,
-          name = _state2.name,
-          rating = _state2.rating;
+          onSave = this.onSave,
+          onChange = this.onChange;
+      var _state$user2 = this.state.user,
+          name = _state$user2.name,
+          rating = _state$user2.rating;
       var _props = this.props,
           id = _props.id,
           error = _props.error,
@@ -27740,7 +27753,7 @@ var UserForm = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-sm-10' },
-              _react2.default.createElement('input', { className: 'form-control', name: 'name', onChange: onChangeName, value: name })
+              _react2.default.createElement('input', { placeholder: 'Name goes here', className: 'form-control', name: 'name', onChange: onChange, value: name })
             )
           ),
           _react2.default.createElement(
@@ -27754,7 +27767,7 @@ var UserForm = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-sm-10' },
-              _react2.default.createElement('input', { className: 'form-control', name: 'rating', onChange: onChangeRating, value: rating })
+              _react2.default.createElement('input', { placeholder: 'Rating goes here', className: 'form-control', name: 'rating', onChange: onChange, value: rating })
             )
           ),
           _react2.default.createElement(

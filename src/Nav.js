@@ -11,12 +11,14 @@ const Nav = ({ users, topUser }) => {
         <Link className="nav-link" to='/'>Home</Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to='/users'>Users ({ users.length })</Link>
+        <Link className="nav-link" to='/users'>Users: <span style={{ fontSize: 14 }} className="badge badge-pill badge-primary">{users.length}</span>
+        </Link>
       </li>
       {
         users.length ?
         <li className="nav-item">
-          <Link className="nav-link" to={`/users/${topUser.id}`}>Top User: {topUser.name} ({topUser.rating})</Link>
+          <Link className="nav-link" to={`/users/${topUser.id}`}>Top User: <span style={{ fontSize: 14 }}className="badge badge-pill badge-primary">{topUser.name} ({topUser.rating})</span>
+          </Link>
         </li> : null
       }
       <li className="nav-item">
