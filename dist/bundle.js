@@ -27618,7 +27618,8 @@ var UserForm = function (_React$Component) {
     var user = _ref.user,
         error = _ref.error,
         deleteUser = _ref.deleteUser,
-        saveUser = _ref.saveUser;
+        saveUser = _ref.saveUser,
+        errorHandler = _ref.errorHandler;
 
     _classCallCheck(this, UserForm);
 
@@ -27636,8 +27637,14 @@ var UserForm = function (_React$Component) {
   }
 
   _createClass(UserForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.props.errorHandler('');
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
+      console.log(nextProps);
       var user = nextProps.user;
 
       this.setState({
@@ -27685,7 +27692,8 @@ var UserForm = function (_React$Component) {
           rating = _state2.rating;
       var _props = this.props,
           id = _props.id,
-          error = _props.error;
+          error = _props.error,
+          errorHandler = _props.errorHandler;
 
       return _react2.default.createElement(
         'div',
@@ -27709,7 +27717,7 @@ var UserForm = function (_React$Component) {
           _react2.default.createElement(
             'button',
             { onClick: function onClick() {
-                document.getElementById('error-alert').remove();
+                errorHandler('');
               }, className: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close' },
             _react2.default.createElement(
               'span',
@@ -27801,6 +27809,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     saveUser: function saveUser(user) {
       return dispatch((0, _store.saveUserOnServer)(user));
+    },
+    errorHandler: function errorHandler(error) {
+      return dispatch((0, _store.errorHandler)(error));
     }
   };
 };

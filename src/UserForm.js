@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { deleteUserFromServer, saveUserOnServer, errorHandler } from '../store';
 
 class UserForm extends React.Component {
-  constructor({ user, error, deleteUser, saveUser }) {
+  constructor({ user, error, deleteUser, saveUser, errorHandler }) {
     super()
     this.state = {
       name: user ? user.name : '',
@@ -17,7 +17,12 @@ class UserForm extends React.Component {
     this.onSave = this.onSave.bind(this)
   }
 
+  componentWillUnmount() {
+    this.props.errorHandler('')
+  }
+
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     const { user } = nextProps
     this.setState({
       name: user ? user.name : '',
@@ -49,7 +54,7 @@ class UserForm extends React.Component {
   render() {
     const { onDelete, onChangeName, onChangeRating, onSave } = this
     const { name, rating } = this.state
-    const { id, error } = this.props
+    const { id, error, errorHandler } = this.props
     return (
       <div>
         <h3 style={{ marginTop: 20}}>{ id ? ('Update user') : ('Create user')}</h3>
@@ -59,7 +64,7 @@ class UserForm extends React.Component {
           <div id="error-alert" className="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>{error.type}: </strong> {error.message}
             <button onClick={() => {
-              document.getElementById('error-alert').remove()
+              errorHandler('')
             }} className="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -113,6 +118,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     deleteUser: (id) => dispatch(deleteUserFromServer(id)),
     saveUser: (user) => dispatch(saveUserOnServer(user)),
+    errorHandler: (error) => dispatch(errorHandler(error))
   }
 }
 
