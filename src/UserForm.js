@@ -85,7 +85,7 @@ class UserForm extends React.Component {
                 value={name}
               />
               <div style={{ marginTop: 10 }} id="name-alert" className="alert alert-danger show-error" role="alert">
-                <strong>Hey, that's not a letter!</strong>
+                I said <strong>letters</strong> only!
               </div>
             </div>
 
@@ -104,7 +104,7 @@ class UserForm extends React.Component {
                 value={rating}
               />
               <div style={{ marginTop: 10 }} id="rating-alert" className="alert alert-danger show-error" role="alert">
-                <strong>Hey, that's not a number!</strong>
+                I said <strong>numbers</strong> only!
               </div>
             </div>
           </div>
